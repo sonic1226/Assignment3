@@ -1,1 +1,102 @@
-Index
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<script src="js/jquery-1.9.0.min.js" type="text/javascript"></script>
+    	<script src="js/jquery.mobile-1.3.0-rc.1.js" type="text/javascript"></script>
+    	<script src="js/jquery.mobile.pagination.js" type="text/javascript"></script>
+    	<link rel="stylesheet" href="css/jquery.mobile-1.3.0-rc.1.css">
+    	<link rel="stylesheet" href="css/jquery.mobile.pagination.css">
+	</head>
+	<body>
+		
+		<div data-role = "page" data-theme = "a" id="homepage">
+
+			<div data-role = "content" data-theme = "b">
+				<div data-demo-html="true">
+		            <ul data-role="listview" data-inset="true" id="items" data-theme="c" data-dividertheme="a">
+		              <li data-role = "list-divider" hidden="true" id="listDiv1">Tweets</li>
+		              <li id="listitem">Swipe Right to view Page 1</li>
+		            </ul>
+		        </div>
+			</div>
+
+			<!-- This footer should be present in all pages that contain the general information about tweets -->
+			<div class="jqm-footer" class="nextPage">
+				<ul data-role="listview" data-inset="true" data-theme="c">
+		            <li id = "nextPageLi">Swipe right to next page ---></li>
+		        </ul>	
+			</div>
+
+		</div>
+
+
+		<div data-role="page" id="page1"> 
+		    <div data-role="content">
+		        
+		        <ul data-role="listview" data-inset="true" data-theme="c">
+		            <li data-role="list-divider">Navigation</li> 
+		            <li><a href="#homepage">Back to the Home Page</a></li>
+		        </ul>
+		        
+		        <p>
+		            Yeah!<br />You Swiped Right to view Page 1
+		        </p>
+		    </div>
+		</div>
+
+
+	</body>
+
+	<script type = "text/javascript">
+	//the maxTweetsToShow variable stores the maximum number of tweets that can apper per page.
+	var maxTweetsToShow = 3;
+	//change the json file for the final file that will be used for testing/grading
+	$.getJSON('favs.json',function (data) {
+
+		var count = 0;
+		$.each(data, function ( index ) {
+			tweet = this;
+			var text;
+
+			text = tweet.text;
+			id = tweet.id;
+
+			var shtml = '';
+
+			// shtml=shtml+'<li class=\"tweets\" id=\"tweet'+index+'\">';
+			shtml=shtml+'<li id=\"tweet'+index+'\">';
+            shtml=shtml+text;
+            shtml=shtml+'</li>';
+
+			$('#items').append(shtml);
+			count = count + 1;
+		});
+		
+		if(maxTweetsToShow > count)
+			maxTweetsToShow = count;
+		for(var i = 1; i<maxTweetsToShow;i++){
+			var id = "#tweet"+i;
+			$(id).css("display","none");
+		}
+		$("")
+
+		$('#items').listview("refresh");
+	});
+	</script>
+
+	<!--
+	responsible for opening the popup to show more information about that particular tweet
+	-->
+	<script type="text/javascript">
+	$("#nextImg").swiperight(function() {
+    	$.mobile.changePage("#page1");
+	});
+	$("#listitem").swiperight(function() {
+    	$.mobile.changePage("#page1");
+	});
+	$("#nextPageLi").swiperight(function() {
+    	$.mobile.changePage("#page1");
+	});
+	</script>
+	
+</html>

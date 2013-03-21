@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<script src="js/jquery-1.9.0.min.js" type="text/javascript"></script>
+    	<script src="js/jquery.mobile-1.3.0-rc.1.js" type="text/javascript"></script>
+    	<script src="js/jquery.mobile.pagination.js" type="text/javascript"></script>
+    	<link rel="stylesheet" href="css/jquery.mobile-1.3.0-rc.1.css">
+    	<link rel="stylesheet" href="css/jquery.mobile.pagination.css">
+	</head>
+	<body>
+		<div data-role = "page" data-theme = "a" id="homepage">
+
+			<div data-role = "content" data-theme = "b">
+				<div data-demo-html="true">
+		            <ul data-role="listview" data-inset="true" id="items" data-theme="c" data-dividertheme="a">
+		              <li data-role = "list-divider" hidden="true" id="listDiv1">Tweets</li>
+		              <li id="listitem">Swipe Right to view Page 1</li>
+		            </ul>
+		        </div>
+			</div>
+
+			<!-- This footer should be present in all pages that contain the general information about tweets -->
+			<div class="jqm-footer">
+				<ul data-role="listview" data-inset="true" data-theme="c">
+		            <li id = "nextPageLi" class="nextPageFooters">Swipe right to next page ---></li>
+		        </ul>	
+			</div>
+
+		</div>
+
+		<!-- <div class="jqm-footer" class="nextPage">
+			<ul data-role="listview" data-inset="true" data-theme="c">
+	            <li id = "nextPageLi" href="#page">Swipe right to next page ---></li>
+	        </ul>	
+		</div>
+ -->	</body>
+
+	<script type="text/javascript">
+
+		//the JSON file will be read and the pages of the document will be created here
+		$.getJSON('favs.json',function (data) {
+			var count = 1;
+			var maxTweetsToShow = 2;
+			var pageNum=1;
+			var pageNumAux=1;
+			$.each(data,function(index){
+				if(count > maxTweetsToShow){
+					count=1;
+					pageNum=pageNum+1;
+				}
+				if(count==1){//create a new page to hold the tweets
+					$('#items'+pageNum-1).listview("refresh");
+					createPage(pageNum);
+					if(count == 1){
+						$('#prevPageID'+pageNum).attr("value","#homepage");
+						$('#nextPageID'+pageNum).attr("value","#page1");
+					}
+					if(pageNum!=1){
+						$('#prevPageID'+pageNum).attr("value","#page"+(pageNum-1));
+					}
+					if(pageNumAux<pageNum){
+						$('#nextPageID'+pageNumAux).attr("value","#page"+pageNum);
+						pageNumAux=pageNum;
+					}
+				}
+				tweet=this;
+				var text;
+
+				text = tweet.text;
+				id = tweet.id;
+
+				var shtml = '';
+				// shtml=shtml+'<li id=\"'+id+'\">';
+				shtml=shtml+'<li id="testLi">';
+	            shtml=shtml+text+pageNum;
+	            shtml=shtml+'</li>';
+
+	            $('#items'+pageNum).append(shtml);
+
+				count= count+1;
+			});
+		});
+
+		function createPage(pageNum){
+
+		//main content. Tweets
+		var pageDiv = document.createElement('div');
+		pageDiv.setAttribute('data-role','page');
+		pageDiv.setAttribute('id','page'+pageNum);
+		pageDiv.setAttribute('class','pages');
+		pageDiv.setAttribute('data-theme','e');
+		var pageContent = document.createElement('div');
+		pageContent.setAttribute('data-role','content');
+		pageContent.setAttribute('data-theme','b');
+		var pageDemo = document.createElement('div');
+		pageDemo.setAttribute('data-demo-html','demo');
+		var tweetList = document.createElement('ul');
+		tweetList.setAttribute('data-role','listview');
+		tweetList.setAttribute('data-inset','true');
+		tweetList.setAttribute('id','items'+pageNum);
+		tweetList.setAttribute('data-theme','c');
+		tweetList.setAttribute('data-dividertheme','a');
+		var listDivider = document.createElement('li');
+		listDivider.setAttribute('data-role','list-divider');
+		listDivider.setAttribute('id','list-listDiv1');
+		var listDividerText = document.createTextNode("Tweets Page "+pageNum);
+		// var listItemTest = document.createElement('li');
+		// listItemTest.setAttribute('id','listItem1');
+		// // listItemTest.setAttribute('class','ui-li ui-li-static ui-btn-up-c');
+		// var listItemTestText = document.createTextNode("Swipe Right to view page "+pageNum);
+		// var listItemTest2 = document.createElement('li');
+		// // listItemTest2.setAttribute('class','ui-li ui-li-static ui-btn-up-c');
+		// listItemTest2.setAttribute('id','listItem1');
+		// var listItemTestText2 = document.createTextNode("Swipe Right to view page "+pageNum+1);
+
+		//footer(s).
+		var footerNextPage = document.createElement('div');
+		footerNextPage.setAttribute('class','jqm-footer');
+		var listNextPage = document.createElement('ul');
+		listNextPage.setAttribute('data-role','listview');
+		listNextPage.setAttribute('data-inset','true');
+		listNextPage.setAttribute('data-theme','c');
+		var liNextPage = document.createElement('li');
+		liNextPage.setAttribute('id','nextPageLi'+pageNum);
+		liNextPage.setAttribute('class','nextPageFooters');
+
+		var liNextPageVal = document.createElement('input');
+		liNextPageVal.setAttribute('type','hidden');
+		liNextPageVal.setAttribute('name','nextPageID');
+		liNextPageVal.setAttribute('id','nextPageID'+pageNum);
+
+		var liNextPageText = document.createTextNode("Swipe right to next page ----->");
+
+		var footerPrevPage = document.createElement('div');
+		footerPrevPage.setAttribute('class','jqm-footer');
+		var listPrevPage = document.createElement('ul');
+		listPrevPage.setAttribute('data-role','listview');
+		listPrevPage.setAttribute('data-inset','true');
+		listPrevPage.setAttribute('data-theme','c');
+		var liPrevPage = document.createElement('li');
+		liPrevPage.setAttribute('id','prevPageLi'+pageNum);
+		liPrevPage.setAttribute('class','prevPageFooters');
+
+		var liPrevPageVal = document.createElement('input');
+		liPrevPageVal.setAttribute('type','hidden');
+		liPrevPageVal.setAttribute('name','prevPageID');
+		liPrevPageVal.setAttribute('id','prevPageID'+pageNum);
+
+		var liPrevPageText = document.createTextNode("<----- Swipe left to previous page");
+
+
+		//appending footer elems
+		liNextPage.appendChild(liNextPageVal);
+		liNextPage.appendChild(liNextPageText);
+		listNextPage.appendChild(liNextPage);
+		footerNextPage.appendChild(listNextPage);
+		liPrevPage.appendChild(liPrevPageVal);
+		liPrevPage.appendChild(liPrevPageText);
+		listPrevPage.appendChild(liPrevPage);
+		footerPrevPage.appendChild(listPrevPage);
+		//appending content elems
+		listDivider.appendChild(listDividerText);
+		// listItemTest.appendChild(listItemTestText);
+		// listItemTest2.appendChild(listItemTestText2);
+		tweetList.appendChild(listDivider);
+		// tweetList.appendChild(listItemTest);
+		// tweetList.appendChild(listItemTest2);
+		pageDemo.appendChild(tweetList);
+		pageContent.appendChild(pageDemo);
+		pageDiv.appendChild(pageContent);
+		pageDiv.appendChild(footerNextPage);
+		pageDiv.appendChild(footerPrevPage);
+		//body appending
+		$('body').append(pageDiv);//add the page to the <body>
+		//switch to the recently created page. This has to be done because otherwise a default page will be loaded instead of this page. prepend() do not work.
+
+	}
+
+	</script>
+
+
+
+	<script type = "text/javascript">
+	//Everytime a new page is created or called, these function will be loaded. If the functions are not here they will not be known by different pages
+	$( document ).on( 'pagebeforecreate',function(){
+		//method that runs everytime a swipe to the right is done in the 'nextPageFooters'
+	  	$(".nextPageFooters").swiperight(function() {
+			var pageNum = $(this).find("input").attr("value");
+			// alert(pageNum);
+			if(pageNum==undefined){
+				$.mobile.changePage("#page1");
+			}else{
+				$.mobile.changePage(pageNum);
+			}
+		});
+
+	  	//method that runs everytime a swipe to the left is done in the 'prevPageFooters'
+	  	$(".prevPageFooters").swipeleft(function() {
+			var pageNum = $(this).find("input").attr("value");
+			// alert(pageNum);
+			$.mobile.changePage(pageNum);
+		});
+		//DO THE SAME BUT RESPONSIVE FOR EACH TWEET
+		// $(".tweetCLASS").swiperight(function() {
+		// 	alert("testLi");
+		// 	if(pageNum=="nextPaeLi1"){
+		// 		$.mobile.changePage("#homepage");
+		// 	}else{
+	 //    		$.mobile.changePage("#page1");
+		//     }
+		// });
+	  // createPages();
+	});
+	</script>
+
+	<!--
+	responsible for opening the popup to show more information about that particular tweet
+	-->
+	<script type="text/javascript">
+		
+	</script>
+	
+	<script type="text/javascript">
+		// $(".nextPageFooters").swiperight(function() {
+		// 	var pageNum = $(this).attr("id");
+		// 	alert(pageNum);
+		// 	if(pageNum=="nextPaeLi1"){
+		// 		$.mobile.changePage("#homepage");
+		// 	}else{
+	 //    		$.mobile.changePage("#page1");
+		//     }
+		// });
+		// $("#nextPageLi1").swiperight(function() {
+		// 	alert("pageNum");
+		// 	if(pageNum=="nextPaeLi1"){
+		// 		$.mobile.changePage("#homepage");
+		// 	}else{
+	 //    		$.mobile.changePage("#page1");
+		//     }
+		// });
+		// $("#testLi").swiperight(function() {
+		// 	alert("testLi");
+		// 	if(pageNum=="nextPaeLi1"){
+		// 		$.mobile.changePage("#homepage");
+		// 	}else{
+	 //    		$.mobile.changePage("#page1");
+		//     }
+		// });
+	</script>
+</html>

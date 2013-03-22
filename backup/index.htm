@@ -78,7 +78,6 @@
 			var id = "#tweet"+i;
 			$(id).css("display","none");
 		}
-		$("")
 
 		$('#items').listview("refresh");
 	});
@@ -88,14 +87,13 @@
 	responsible for opening the popup to show more information about that particular tweet
 	-->
 	<script type="text/javascript">
-	$("#nextImg").swiperight(function() {
-    	$.mobile.changePage("#page1");
-	});
 	$("#listitem").swiperight(function() {
     	$.mobile.changePage("#page1");
 	});
 	$("#nextPageLi").swiperight(function() {
-    	$.mobile.changePage("#page1");
+    	// $.mobile.changePage("#page1");
+    	$('#homepage').append('<div class=\"future\">I am a new div</div>');
+
 	});
 	</script>
 	

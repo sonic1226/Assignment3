@@ -33,7 +33,91 @@
 	            <li id = "nextPageLi" href="#page">Swipe right to next page ---></li>
 	        </ul>	
 		</div>
- -->	</body>
+ --></body>
+
+ 	<style>
+
+ 			img.imgTweet{
+ 				display: inline;
+ 				
+			  	height:64px;
+			  	float:left;
+ 			}
+ 			/*Rules for configuring the buttom close in extraInfo div.*/
+ 			span.ui-btn-inner{
+ 				padding:0;
+ 				transform:none;
+ 			}
+ 			span.ui-btn-text{
+ 				font-size: 0.75em;
+ 				transform:none;
+ 			}
+ 			a.extraInfoButton{
+				position:absolute;
+			    height:8%; 
+			    width:10%;
+			    top:1%;
+			    left:85%;
+			    transform:none;
+			}
+ 			/*Rules for configuring tweet text div*/
+ 			div.ui-btn-text{
+			  width: 90%;
+ 			}
+ 			span.text{
+			  white-space: normal;
+
+ 			}
+ 			/*Rules for configuring extraInfo divs*/
+ 			.overlay{
+			    opacity:0.9;
+			    background-color:#ccc;
+			    position:absolute;
+			    width:40%;
+			    height:75%;
+			    top:12.5%;
+			    left:30%;
+			    color:black;
+			    z-index:1000;
+			    overflow : scroll;
+			    display:none;
+			}
+			/* Rules for configuring the speech ballon which shows the user who tweeted*/
+ 			li.tweet{
+				transform:none;
+			}
+			div.ui-btn-inner.ui-li{
+				transform: none;
+			}
+			div.ui-btn-text{
+				transform: none;
+			}
+			ul.TweetList li.tweet a.tip2{
+			  overflow : visible;
+			  white-space: normal;
+			  outline: 0 none;
+			  transform: none;
+			}
+			a.tip2 span {
+				display: none;
+				position: absolute; 
+				padding: .5em;
+			    content: attr(title);
+			    min-width: 120px;
+			    text-align: center;
+			    width: auto;
+			    height: auto;
+			    white-space: nowrap;
+			    top: -32px;
+			    background: rgba(0,0,0,.8);
+			    -moz-border-radius:10px;
+			    -webkit-border-radius:10px;
+			    border-radius:10px;    
+			    color: #fff;
+			    font-size: .86em;
+			}
+
+	</style>
 
 	<script type="text/javascript">
 
@@ -77,21 +161,79 @@
 				id = tweet.id;
 
 				var shtml = '';
-				// shtml=shtml+'<li id=\"'+id+'\">';
-				shtml=shtml+'<li id="testLi">';
-				if(imgSrc!=null){
-					alert(imgSrc);
-					shtml=shtml+"<img src = \""+imgSrc+"\">";
-				}
-	            shtml=shtml+text+pageNum;
-	            shtml=shtml+'</li>';
+				var idTweet ="PAGE"+pageNum+"N"+count;
+				shtml=shtml+'<li class =\"tweet\" id="tweet'+idTweet+'">'; 
+				//Here is placed the hyperlink for the ballon speech
+           		shtml=shtml+'<a href = \"#\" class = \"tip2\" >';
 
+           		//userInfo: username and location.
+           		var userInfo = tweet.user.name + '<br> ';
+           		if(tweet.user.location!=""){
+           			userInfo =  userInfo + '' +tweet.user.location + '<br> ';
+           		}
+      
+           		shtml=shtml+'<span id="ballon'+idTweet+'"">'+userInfo+'</span></a>';
+
+           		
+
+           		//Here is where the actual tweet is placed.
+           		shtml = shtml +'<span class ="text">';
+           		var formattedText = replaceURLWithHTMLLinks(text);
+
+           		if(imgSrc!=null){
+					//$('#tweet'+idTweet).css("min-height","100px");
+					shtml=shtml+"<img class='imgTweet' src = \""+imgSrc+"\">";
+
+				}
+
+			
+           		shtml = shtml+formattedText;
+           		shtml = shtml +'</span>';
+           		
+           		//Here is declared the buttom which when clicked gives more information about the tweet.
+           		shtml = shtml+'<a href = \"#\"  onclick=\"openExtraInfo(this.id); return false;\" rel=\"external\" id="a'+idTweet+'"> </a>';
+	            
+				
+	            
+	            shtml=shtml+'</li>';
 	            $('#items'+pageNum).append(shtml);
 
+	            //The extra information is placed here. It is linked with the page, but its ID is related to 
+	            //a tweet's ID.
+	            var extraInfo='<div class = "overlay" data-role = "content" data-theme = "b" id = extraInfo'+idTweet+'>'; 
+
+	            //info involves when tweet was created, its source and the number of retweets.
+	            var info = '<br> tweet posted at: ' + tweet.created_at + '<br>';
+	            info = info + 'source: ' + tweet.source + '<br>';
+	            info = info + 'num retwees: ' + tweet.retweet_count + '<br>';
+
+
+	            extraInfo=extraInfo+info;
+	            extraInfo=extraInfo+'<a href="#" data-role="button" class="extraInfoButton" onclick=\"closeExtraInfo()\"> Close</a>';
+	            extraInfo=extraInfo+'</div>';
+	            $('#items'+pageNum).append(extraInfo);
+	            
 				count= count+1;
+				if(imgSrc != null){
+					$('#tweet'+idTweet).css("min-height","100px");
+				}
 			});
 		});
 
+	    /*This function transforms all links which appear in the twitter into hyperlinks*/
+		function replaceURLWithHTMLLinks(text) {
+    		var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    		return text.replace(exp,"<a href='$1' target='_blank'>$1</a>"); 
+		}
+		//open the extraInfoDiv
+		function openExtraInfo(id){
+			$('#extraInfo'+id.substr(1)).css("display","inline");
+		}
+		//close the extraInfoDiv
+		function closeExtraInfo(){
+			$('.overlay').css("display","none");
+		}
+	
 		function createPage(pageNum){
 
 		//main content. Tweets
@@ -109,6 +251,7 @@
 		tweetList.setAttribute('data-role','listview');
 		tweetList.setAttribute('data-inset','true');
 		tweetList.setAttribute('id','items'+pageNum);
+		tweetList.setAttribute('class', "TweetList");
 		tweetList.setAttribute('data-theme','c');
 		tweetList.setAttribute('data-dividertheme','a');
 		var listDivider = document.createElement('li');
@@ -200,7 +343,6 @@
 			//method that runs everytime a swipe to the right is done in the 'nextPageFooters'
 		  	$(".nextPageFooters").swiperight(function(event) {
 				var pageNum = $(this).find("input").attr("value");
-				alert(pageNum);
 				if(pageNum==undefined){
 					$.mobile.changePage("#page1");
 					event.stopImmediatePropagation(); //otherwise this part of code will be executed twice
@@ -213,10 +355,20 @@
 		  	//method that runs everytime a swipe to the left is done in the 'prevPageFooters'
 		  	$(".prevPageFooters").swipeleft(function(event) {
 				var pageNum = $(this).find("input").attr("value");
-				alert(pageNum);
 				$.mobile.changePage(pageNum);
 				event.stopImmediatePropagation();
 			});
+		  	//Events which control when sppech ballon appear.
+			$("li.tweet").hover(function (event){
+				var id = this.id.substring(5);
+				$('#ballon'+id).css("display","block");
+				o = document.getElementById(this.id);
+				$('#ballon'+id).css("left",event.pageX - (o.offsetLeft+10));
+			},function(){
+				var id = this.id.substring(5);
+				$('#ballon'+id).css("display","none");
+			});
+
 			//DO THE SAME BUT RESPONSIVE FOR EACH TWEET
 			// $(".tweetCLASS").swiperight(function() {
 			// 	alert("testLi");

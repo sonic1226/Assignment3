@@ -1,0 +1,20 @@
+- CHANGING DIV's RESOLUTION BY A GIVEN RESOLUTION. (Responsive Design).
+The client needs to adhere to Responsive Design principles by providing at least 2 layouts depending on the width of the browser window.
+
+- BETTER INTERFACE (size of objects, positioning ...)
+
+- HASHTAGS, MENTIONS (not mandatory)
+Other entities, such as places, hashtags and user mentions would be a great addition to the client, but are not mandatory
+
+OK
+- TWEETS CONTENT
+The client needs to present a main navigation window which allows for a quick exploration of content available. Secondary pop-up windows should be enabled to explore more details when available.  
+
+OK
+- LINKS
+The client should allow me to click-through any links by opening them in a new window. If you feel very confident, you can try to render the links within an iFrame.
+
+OK
+- USER WHO TWEETED
+The client should allow me to learn more about the users that originally tweeted the content
+

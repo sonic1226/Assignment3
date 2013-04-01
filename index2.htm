@@ -20,7 +20,7 @@
 			</div>
 
 			<!-- This footer should be present in all pages that contain the general information about tweets -->
-			<div class="jqm-footer">
+			<div class="jqm-footer" data-role="footer" data-position="fixed">
 				<ul data-role="listview" data-inset="true" data-theme="c">
 		            <li id = "nextPageLi" class="nextPageFooters">Swipe right to next page ---></li>
 		        </ul>	
@@ -322,10 +322,22 @@
 		pageDemo.appendChild(tweetList);
 		pageContent.appendChild(pageDemo);
 		pageDiv.appendChild(pageContent);
-		pageDiv.appendChild(footerNextPage);
-		pageDiv.appendChild(footerPrevPage);
+		
+		var Divfooter = document.createElement('div');
+		Divfooter.setAttribute('class','jqm-footer');;
+		Divfooter.setAttribute('data-inset','true');
+		Divfooter.setAttribute('data-theme','c');
+		Divfooter.setAttribute('data-role','footer');
+		Divfooter.setAttribute('data-position','fixed');
+		
+		Divfooter.appendChild(footerNextPage);
+		Divfooter.appendChild(footerPrevPage);
+		
+		pageDiv.appendChild(Divfooter);
+		
 		//body appending
 		$('body').append(pageDiv);//add the page to the <body>
+		
 		//switch to the recently created page. This has to be done because otherwise a default page will be loaded instead of this page. prepend() do not work.
 
 	}

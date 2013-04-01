@@ -344,10 +344,10 @@
 		  	$(".nextPageFooters").swiperight(function(event) {
 				var pageNum = $(this).find("input").attr("value");
 				if(pageNum==undefined){
-					$.mobile.changePage("#page1", { transition: "slide"});
+					$.mobile.changePage("#page1", { transition: "reverse slide"});
 					event.stopImmediatePropagation(); //otherwise this part of code will be executed twice
 				}else{
-					$.mobile.changePage(pageNum, { transition: "slide"});
+					$.mobile.changePage(pageNum, { transition: "reverse slide"});
 					event.stopImmediatePropagation();
 				}
 			});
@@ -355,7 +355,7 @@
 		  	//method that runs everytime a swipe to the left is done in the 'prevPageFooters'
 		  	$(".prevPageFooters").swipeleft(function(event) {
 				var pageNum = $(this).find("input").attr("value");
-				$.mobile.changePage(pageNum, { transition: "reverse slide"});
+				$.mobile.changePage(pageNum, { transition: "slide"});
 				event.stopImmediatePropagation();
 			});
 		  	//Events which control when sppech ballon appear.

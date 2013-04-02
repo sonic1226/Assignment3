@@ -116,6 +116,10 @@
 			    color: #fff;
 			    font-size: .86em;
 			}
+			
+			.ui-grid-a > .ui-block-a.text { width: 80% }
+			.ui-grid-a > .ui-block-b.button { width: 20%; }  
+			
 
 	</style>
 
@@ -177,7 +181,7 @@
            		
 
            		//Here is where the actual tweet is placed.
-           		shtml = shtml +'<span class ="text">';
+           		shtml = shtml +'<div class="ui-grid-a"><div class="ui-block-a text"><span class ="text">';
            		var formattedText = replaceURLWithHTMLLinks(text);
 
            		if(imgSrc!=null){
@@ -188,10 +192,10 @@
 
 			
            		shtml = shtml+formattedText;
-           		shtml = shtml +'</span>';
+           		shtml = shtml +'</span></div>';
            		
            		//Here is declared the buttom which when clicked gives more information about the tweet.
-           		shtml = shtml+'<a href = \"#\"  onclick=\"openExtraInfo(this.id); return false;\" rel=\"external\" id="a'+idTweet+'"> </a>';
+           		shtml = shtml+'<div class="ui-block-b button"><a href = \"#\" data-role="button" data-icon="info" onclick=\"openExtraInfo(this.id); return false;\" rel=\"external\" id="a'+idTweet+'"> Extra <br> Information </a></div></div>';
 	            
 				
 	            

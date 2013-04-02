@@ -60,6 +60,12 @@
 			    left:85%;
 			    transform:none;
 			}
+			
+			a.InfoButton{
+			    height:25px; 
+			    width:75px;
+			}
+			
  			/*Rules for configuring tweet text div*/
  			div.ui-btn-text{
 			  width: 90%;
@@ -117,7 +123,7 @@
 			    font-size: .86em;
 			}
 			
-			.ui-grid-a > .ui-block-a.text { width: 80% }
+			.ui-grid-a > .ui-block-a.text { width: 80%; }
 			.ui-grid-a > .ui-block-b.button { width: 20%; }  
 			
 
@@ -195,7 +201,8 @@
            		shtml = shtml +'</span></div>';
            		
            		//Here is declared the buttom which when clicked gives more information about the tweet.
-           		shtml = shtml+'<div class="ui-block-b button"><a href = \"#\" data-role="button" data-icon="info" onclick=\"openExtraInfo(this.id); return false;\" rel=\"external\" id="a'+idTweet+'"> Extra <br> Information </a></div></div>';
+           		shtml = shtml+'<div class="ui-block-b button"><a href = \"#\" data-role="button" data-icon="info" data-iconpos="left" style="display:block" class="InfoButton" onclick=\"openExtraInfo(this.id); return false;\" rel=\"external\" id="a1'+idTweet+'">Info</a>'+
+           		'<a href = \"#\" data-role="button" data-icon="info" data-iconpos="notext" style="display:none" onclick=\"openExtraInfo(this.id); return false;\" rel=\"external\" id="a2'+idTweet+'">Information</a></div></div>';
 	            
 				
 	            
@@ -384,6 +391,18 @@
 				var id = this.id.substring(5);
 				$('#ballon'+id).css("display","none");
 			});
+			
+			
+			$(window).resize(function() {
+			//TODO need to loop this over all tweet buttons
+				if($(window).width()<500){
+  					document.getElementById("a2PAGE1N1").style.display="block";
+  					document.getElementById("a1PAGE1N1").style.display="none";
+  				} else {
+  					document.getElementById("a2PAGE1N1").style.display="none";
+  					document.getElementById("a1PAGE1N1").style.display="block";
+  				}
+			});
 
 			//DO THE SAME BUT RESPONSIVE FOR EACH TWEET
 			// $(".tweetCLASS").swiperight(function() {
@@ -397,7 +416,19 @@
 		  // createPages();
 		});
 	// });
+	
+	
+	
 	</script>
+	
+	<!--
+	responsible for resizing the window
+	-->
+	<script type="text/javascript">
+	
+	</script>
+	
+	
 
 	<!--
 	responsible for opening the popup to show more information about that particular tweet

@@ -22,21 +22,18 @@
 			<!-- This footer should be present in all pages that contain the general information about tweets -->
 			<div class="jqm-footer" data-role="footer" data-position="fixed">
 				<ul data-role="listview" data-inset="true" data-theme="c">
-		            <li id = "nextPageLi" class="nextPageFooters">Swipe right to next page ---></li>
+		            <li id = "nextPageLi" class="nextPageFooters">Swipe here to the right to next page ---></li>
 		        </ul>	
 			</div>
 
 		</div>
-
-		<!-- <div class="jqm-footer" class="nextPage">
-			<ul data-role="listview" data-inset="true" data-theme="c">
-	            <li id = "nextPageLi" href="#page">Swipe right to next page ---></li>
+			</li>
 	        </ul>	
 		</div>
- --></body>
+ </body>
 
  	<style>
-
+			
  			img.imgTweet{
  				display: inline;
  				
@@ -60,10 +57,12 @@
 			    left:85%;
 			    transform:none;
 			}
-			
+			/*Rules for the Info button beside every tweet*/
 			a.InfoButton{
 			    height:25px; 
 			    width:75px;
+			    top: 50%;
+			    left: 50%;
 			}
 			
  			/*Rules for configuring tweet text div*/
@@ -198,7 +197,7 @@
 				}
 
 			
-           		shtml = shtml+formattedText;
+           		shtml = shtml+'<text>'+formattedText+'</text>';
            		shtml = shtml +'</span></div>';
            		
            		//Here is declared the buttom which when clicked gives more information about the tweet.
@@ -239,7 +238,7 @@
 		}
 		//open the extraInfoDiv
 		function openExtraInfo(id){
-			$('#extraInfo'+id.substr(1)).css("display","inline");
+			$('#extraInfo'+id.substr(2)).css("display","inline");
 		}
 		//close the extraInfoDiv
 		function closeExtraInfo(){
@@ -270,14 +269,6 @@
 		listDivider.setAttribute('data-role','list-divider');
 		listDivider.setAttribute('id','list-listDiv1');
 		var listDividerText = document.createTextNode("Tweets Page "+pageNum);
-		// var listItemTest = document.createElement('li');
-		// listItemTest.setAttribute('id','listItem1');
-		// // listItemTest.setAttribute('class','ui-li ui-li-static ui-btn-up-c');
-		// var listItemTestText = document.createTextNode("Swipe Right to view page "+pageNum);
-		// var listItemTest2 = document.createElement('li');
-		// // listItemTest2.setAttribute('class','ui-li ui-li-static ui-btn-up-c');
-		// listItemTest2.setAttribute('id','listItem1');
-		// var listItemTestText2 = document.createTextNode("Swipe Right to view page "+pageNum+1);
 
 		//footer(s).
 		var footerNextPage = document.createElement('div');
@@ -295,7 +286,7 @@
 		liNextPageVal.setAttribute('name','nextPageID');
 		liNextPageVal.setAttribute('id','nextPageID'+pageNum);
 
-		var liNextPageText = document.createTextNode("Swipe right to next page ----->");
+		var liNextPageText = document.createTextNode("Swipe here to the right to next page ----->");
 
 		var footerPrevPage = document.createElement('div');
 		footerPrevPage.setAttribute('class','jqm-footer');
@@ -312,7 +303,7 @@
 		liPrevPageVal.setAttribute('name','prevPageID');
 		liPrevPageVal.setAttribute('id','prevPageID'+pageNum);
 
-		var liPrevPageText = document.createTextNode("<----- Swipe left to previous page");
+		var liPrevPageText = document.createTextNode("<----- Swipe here to the left to previous page");
 
 
 		//appending footer elems
@@ -359,8 +350,6 @@
 
 
 	<script type = "text/javascript">
-	// $(document).ready(function(){
-	// 	alert("document ready");
 
 	//Everytime a new page is created or called, these function will be loaded. If the functions are not here they will not be known by different pages
 		$( document ).on( 'pagebeforecreate',function(){
@@ -395,7 +384,9 @@
 			
 			
 			$(window).resize(function() {
+				//Resize the Info button and the text size.
 				if($(window).width()<500){
+					$("text").css("font-size", "75%");
   					for(var i=0; i<window.buttona1.length; i++){
   						document.getElementById(window.buttona1[i].toString()).style.display="none";
   					}
@@ -405,6 +396,7 @@
   					
   					
   				} else {
+  					$("text").css("font-size", "100%");
   					for(var i=0; i<window.buttona1.length; i++){
   						document.getElementById(window.buttona1[i].toString()).style.display="block";
   					}
@@ -414,64 +406,8 @@
   				}
 			});
 
-			//DO THE SAME BUT RESPONSIVE FOR EACH TWEET
-			// $(".tweetCLASS").swiperight(function() {
-			// 	alert("testLi");
-			// 	if(pageNum=="nextPaeLi1"){
-			// 		$.mobile.changePage("#homepage");
-			// 	}else{
-		 //    		$.mobile.changePage("#page1");
-			//     }
-			// });
-		  // createPages();
 		});
-	// });
-	
-	
 	
 	</script>
 	
-	<!--
-	responsible for resizing the window
-	-->
-	<script type="text/javascript">
-	
-	</script>
-	
-	
-
-	<!--
-	responsible for opening the popup to show more information about that particular tweet
-	-->
-	<script type="text/javascript">
-		
-	</script>
-	
-	<script type="text/javascript">
-		// $(".nextPageFooters").swiperight(function() {
-		// 	var pageNum = $(this).attr("id");
-		// 	alert(pageNum);
-		// 	if(pageNum=="nextPaeLi1"){
-		// 		$.mobile.changePage("#homepage");
-		// 	}else{
-	 //    		$.mobile.changePage("#page1");
-		//     }
-		// });
-		// $("#nextPageLi1").swiperight(function() {
-		// 	alert("pageNum");
-		// 	if(pageNum=="nextPaeLi1"){
-		// 		$.mobile.changePage("#homepage");
-		// 	}else{
-	 //    		$.mobile.changePage("#page1");
-		//     }
-		// });
-		// $("#testLi").swiperight(function() {
-		// 	alert("testLi");
-		// 	if(pageNum=="nextPaeLi1"){
-		// 		$.mobile.changePage("#homepage");
-		// 	}else{
-	 //    		$.mobile.changePage("#page1");
-		//     }
-		// });
-	</script>
 </html>

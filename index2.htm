@@ -130,7 +130,8 @@
 	</style>
 
 	<script type="text/javascript">
-
+		var buttona1 = new Array();
+		var buttona2 = new Array();
 		//the JSON file will be read and the pages of the document will be created here
 		$.getJSON('favs.json',function (data) {
 			var count = 1;
@@ -203,8 +204,8 @@
            		//Here is declared the buttom which when clicked gives more information about the tweet.
            		shtml = shtml+'<div class="ui-block-b button"><a href = \"#\" data-role="button" data-icon="info" data-iconpos="left" style="display:block" class="InfoButton" onclick=\"openExtraInfo(this.id); return false;\" rel=\"external\" id="a1'+idTweet+'">Info</a>'+
            		'<a href = \"#\" data-role="button" data-icon="info" data-iconpos="notext" style="display:none" onclick=\"openExtraInfo(this.id); return false;\" rel=\"external\" id="a2'+idTweet+'">Information</a></div></div>';
-	            
-				
+	            window.buttona1.push("a1"+idTweet);
+				window.buttona2.push("a2"+idTweet);
 	            
 	            shtml=shtml+'</li>';
 	            $('#items'+pageNum).append(shtml);
@@ -394,13 +395,22 @@
 			
 			
 			$(window).resize(function() {
-			//TODO need to loop this over all tweet buttons
 				if($(window).width()<500){
-  					document.getElementById("a2PAGE1N1").style.display="block";
-  					document.getElementById("a1PAGE1N1").style.display="none";
+  					for(var i=0; i<window.buttona1.length; i++){
+  						document.getElementById(window.buttona1[i].toString()).style.display="none";
+  					}
+  					for(var i=0; i<window.buttona2.length; i++){
+  						document.getElementById(window.buttona2[i].toString()).style.display="block";
+  					}
+  					
+  					
   				} else {
-  					document.getElementById("a2PAGE1N1").style.display="none";
-  					document.getElementById("a1PAGE1N1").style.display="block";
+  					for(var i=0; i<window.buttona1.length; i++){
+  						document.getElementById(window.buttona1[i].toString()).style.display="block";
+  					}
+  					for(var i=0; i<window.buttona2.length; i++){
+  						document.getElementById(window.buttona2[i].toString()).style.display="none";
+  					}
   				}
 			});
 
